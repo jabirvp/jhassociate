@@ -16,7 +16,7 @@ mail.init_app(app)
 
 @app.route("/")
 def hello():
-    return render_template('hello.html')
+    return render_template('index.html')
     
 @app.route("/send")
 def mail_send():
