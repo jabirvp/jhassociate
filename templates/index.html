@@ -17,7 +17,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- //For-Mobile-Apps -->
 <!-- Style --> <link rel="stylesheet" href="static/css/jh.css" type="text/css" media="all" />
-    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+		<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
 
 </head>
 <body>
@@ -27,107 +27,148 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
 	<div class="signin">
-     	<form>
-	      	
-	      	<input type="text" class="user" id="usr_name" placeholder="Name">
-	      	<input type="text" class="user" id="usr_mobile" placeholder="Mobile Number">
-	      	<input type="text" class="user" id="autocomplete" placeholder="Area/Location">
-	      	<input type="text" class="user" id="usr_occupation" placeholder="Business/Occupation">
+			<form onsubmit="sendContact();">
+					
+					<input type="text" class="user" name="name" id="usr_name" placeholder="Name">
+					<input type="text" class="user" name="mob_number" id="usr_mobile" placeholder="Mobile Number">
+					<input type="text" class="user" name="area" id="area" placeholder="Area/Location">
+					<input type="text" class="user" name="business" id="usr_occupation" placeholder="Business/Occupation">
 
-			<input type="text" class="user" id="usr_code" placeholder="Code Number">
-    
-          	<input type="submit" value="Submit" />
-	 	</form>
+					<input type="text" class="user" name="code" id="usr_code" placeholder="Code Number">
+		
+					<input type="submit" value="Submit" onclick="sendContact();" />
+		</form>
 	</div>
 </div>
 
 
 
 <div class="footer">
-     <p>Copyright &copy; 2018 J&H Assosiate. All Rights Reserved </p>
+		 <p>Copyright &copy; 2018 J&H Assosiate. All Rights Reserved </p>
 </div>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <script>
-      // This example displays an address form, using the autocomplete feature
-      // of the Google Places API to help users fill in the information.
+			// This example displays an address form, using the autocomplete feature
+			// of the Google Places API to help users fill in the information.
 
-      // This example requires the Places library. Include the libraries=places
-      // parameter when you first load the API. For example:
-      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+			// This example requires the Places library. Include the libraries=places
+			// parameter when you first load the API. For example:
+			// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-      var placeSearch, autocomplete;
-      var componentForm = {
-        street_number: 'short_name',
-        route: 'long_name',
-        locality: 'long_name',
-        administrative_area_level_1: 'short_name',
-        country: 'long_name',
-        postal_code: 'short_name'
-      };
+			var placeSearch, autocomplete;
+			var componentForm = {
+				street_number: 'short_name',
+				route: 'long_name',
+				locality: 'long_name',
+				administrative_area_level_1: 'short_name',
+				country: 'long_name',
+				postal_code: 'short_name'
+			};
 
-      function initAutocomplete() {
-        // Create the autocomplete object, restricting the search to geographical
-        // location types.
-        autocomplete = new google.maps.places.Autocomplete(
-            /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
-            {types: ['geocode']});
+			function initAutocomplete() {
+				// Create the autocomplete object, restricting the search to geographical
+				// location types.
+				autocomplete = new google.maps.places.Autocomplete(
+						/** @type {!HTMLInputElement} */(document.getElementById('area')),
+						{types: ['geocode']});
 
-        // When the user selects an address from the dropdown, populate the address
-        // fields in the form.
-        autocomplete.addListener('place_changed', fillInAddress);
-      }
+				// When the user selects an address from the dropdown, populate the address
+				// fields in the form.
+				autocomplete.addListener('place_changed', fillInAddress);
+			}
 
-      function fillInAddress() {
-        // Get the place details from the autocomplete object.
-        var place = autocomplete.getPlace();
+			function fillInAddress() {
+				// Get the place details from the autocomplete object.
+				var place = autocomplete.getPlace();
 
-        for (var component in componentForm) {
-          document.getElementById(component).value = '';
-          document.getElementById(component).disabled = false;
-        }
+				for (var component in componentForm) {
+					document.getElementById(component).value = '';
+					document.getElementById(component).disabled = false;
+				}
 
-        // Get each component of the address from the place details
-        // and fill the corresponding field on the form.
-        for (var i = 0; i < place.address_components.length; i++) {
-          var addressType = place.address_components[i].types[0];
-          if (componentForm[addressType]) {
-            var val = place.address_components[i][componentForm[addressType]];
-            document.getElementById(addressType).value = val;
-          }
-        }
-      }
+				// Get each component of the address from the place details
+				// and fill the corresponding field on the form.
+				for (var i = 0; i < place.address_components.length; i++) {
+					var addressType = place.address_components[i].types[0];
+					if (componentForm[addressType]) {
+						var val = place.address_components[i][componentForm[addressType]];
+						document.getElementById(addressType).value = val;
+					}
+				}
+			}
 
-      // Bias the autocomplete object to the user's geographical location,
-      // as supplied by the browser's 'navigator.geolocation' object.
-      function geolocate() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var geolocation = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-            var circle = new google.maps.Circle({
-              center: geolocation,
-              radius: position.coords.accuracy
-            });
-            autocomplete.setBounds(circle.getBounds());
-          });
-        }
-      }
-      var input = document.getElementById('autocomplete');
-	  google.maps.event.addDomListener(input, 'keydown', function(event) { 
-	    if (event.keyCode === 13) { 
-	        event.preventDefault(); 
-	    }
-	  }); 
+			// Bias the autocomplete object to the user's geographical location,
+			// as supplied by the browser's 'navigator.geolocation' object.
+			function geolocate() {
+				if (navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(function(position) {
+						var geolocation = {
+							lat: position.coords.latitude,
+							lng: position.coords.longitude
+						};
+						var circle = new google.maps.Circle({
+							center: geolocation,
+							radius: position.coords.accuracy
+						});
+						autocomplete.setBounds(circle.getBounds());
+					});
+				}
+			}
+			var input = document.getElementById('autocomplete');
+		google.maps.event.addDomListener(input, 'keydown', function(event) { 
+			if (event.keyCode === 13) { 
+					event.preventDefault(); 
+			}
+		}); 
 
 
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDF8Z6GqqJ_j3CtMyMcEFBNjhDlrJAN_MQ&libraries=places&callback=initAutocomplete"
-        async defer></script>
+		function sendContact() {
+			var http = new XMLHttpRequest();
+			var url = "/contact";
+
+			var name = document.getElementById("usr_name").value;
+			var business = document.getElementById("usr_occupation").value;
+			var code = document.getElementById("usr_code").value;
+			var area = document.getElementById("area").value;
+			var mob_number = document.getElementById("usr_mobile").value;
+
+			var params = {
+				"name":name,
+				"mob_number":mob_number,
+				"area":area,
+				"business":business,
+				"code":code
+			}
+			console.log(params)
+			http.open("POST", url);
+
+			//Send the proper header information along with the request
+			http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+			http.onreadystatechange = function() {//Call a function when the state changes.
+					if(http.readyState == 4 && http.status == 200) {
+							data = JSON.parse(http.responseText);
+							console.log(data)
+
+							swal("Contacted", data.message, "success").catch(swal.noop);
+
+							// do swal here
+					}
+			}
+			http.send(JSON.stringify(params));
+		}
+
+
+		</script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDF8Z6GqqJ_j3CtMyMcEFBNjhDlrJAN_MQ&libraries=places&callback=initAutocomplete"
+				async defer></script>
 
 
 
 </body>
+<script type="text/javascript">
+
+</script>
 </html>
