@@ -17,24 +17,11 @@ mail.init_app(app)
 @app.route("/")
 def hello():
 	return render_template('index.html')
-	
-@app.route("/send/<name>/<mob_number>/<area>/<buisness>/<code>")
-def mail_send(name,mob_number,area,buisness,code):
-	msg = Message("New customer enquiry in " + code,
-			sender="jhassociatemanjeri@gmail.com",
-			recipients=['jhassociatemanjeri@gmail.com']
-		)
-	
-	msg.body = "Mobile Number : " + mob_number + "\nName : " + name + "\nArea : " + area + "\nBuisness : " + buisness + "\nCode Number : " + code
-
-	mail.send(msg)
-	return render_template('test.html')
 
 @app.route("/contact", methods=['POST'])
 def contact():
 	try:
 		data = request.get_json()
-		print(data)
 		name = data.get('name')
 		mob_number = data.get('mob_number')
 		area = data.get('area')
