@@ -49,7 +49,7 @@ img{max-width:100%;}
 /*-- Index-Page-Styling --*/
 
 body {
-	background: url("../images/bg.jpg") no-repeat;
+	background: url("../images/bulding.jpg") no-repeat;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -63,8 +63,8 @@ body {
 h1 {
     text-align: center;
     font-size: 40px;
-    font-family: Lemon-Regular;
-    color: #224394;
+    font-family: Arial;
+    color: #2c2326;
 }
 
 .signin {
