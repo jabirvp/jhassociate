@@ -171,7 +171,7 @@ $(function() {
 					if(http.readyState == 4 && http.status == 200) {
 							data = JSON.parse(http.responseText);
 
-							swal("Contacted", data.message, "success").catch(swal.noop).then(function(){
+							swal("Successfully Registered", data.message, "success").catch(swal.noop).then(function(){
 								window.location.reload();
 							});
 

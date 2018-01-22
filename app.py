@@ -47,5 +47,5 @@ def contact():
 
 	return jsonify(
 		status = True,
-		message = "We will contact you in 24 hours."
+		message = "A J&H Executive will contact you soon."
 	)
